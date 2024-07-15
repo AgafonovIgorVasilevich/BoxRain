@@ -7,8 +7,8 @@ public class Spawner : MonoBehaviour
     [SerializeField] private BoxPool _pool;
 
     [SerializeField] private float _lengthArea = 9;
-    [SerializeField] private int _minConunt = 1;
-    [SerializeField] private int _maxConunt = 5;
+    [SerializeField] private int _minCount = 1;
+    [SerializeField] private int _maxCount = 5;
     [SerializeField] private float _tick = 0.5f;
     [SerializeField] private bool _isWork = true;
 
@@ -27,7 +27,7 @@ public class Spawner : MonoBehaviour
     {
         while (_isWork)
         {
-            _spawnCount = Random.Range(_minConunt, _maxConunt);
+            _spawnCount = Random.Range(_minCount, _maxCount);
 
             for (int i = 0; i < _spawnCount; i++)
             {

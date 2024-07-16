@@ -4,26 +4,23 @@ using UnityEngine;
 
 public class Box : MonoBehaviour
 {
-    private Destroyer _destroyer;
-    private bool _isContact;
+    private BombSpawner _bombSpawner;
+    private ItemPool<Box> _pool;
 
-    public void Initialize(Destroyer destroyer)
+    public void Initialize(ItemPool<Box> pool, BombSpawner bombSpawner)
     {
         GetComponent<Renderer>().material.color = Color.white;
-        _destroyer = destroyer;
-        _isContact = false;
+        _bombSpawner = bombSpawner;
+        _pool = pool;
     }
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (_isContact)
-            return;
-
         if(collision.transform.GetComponent<Platform>())
         {
             GetComponent<Renderer>().material.color = Random.ColorHSV();
-            _destroyer.Destroy(this);
-            _isContact = true;
+            _pool.Put(this);
+            _bombSpawner.Spawn(transform.position);
         }
     }
 }

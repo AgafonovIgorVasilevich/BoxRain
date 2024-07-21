@@ -1,7 +1,7 @@
 using UnityEngine.UI;
 using UnityEngine;
 
-[RequireComponent (typeof(Text))]
+[RequireComponent(typeof(Text))]
 
 public class PoolView<T> : MonoBehaviour where T : MonoBehaviour
 {
@@ -19,5 +19,5 @@ public class PoolView<T> : MonoBehaviour where T : MonoBehaviour
         _view.text = $"{_title}: 0";
     }
 
-    private void Show(int count) => _view.text = $"{_title}: {count}";
+    private void Show(int countAll, int countActive) => _view.text = $"{_title}: {countActive} / {countAll}";
 }

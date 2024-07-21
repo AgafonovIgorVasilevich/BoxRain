@@ -15,8 +15,11 @@ public class BoxSpawner : Spawner<Box>
 
     private void Start() => StartCoroutine(SpawnBoxes());
 
-    public override void Spawn(Vector3 position) =>
-        Pool.Get(position).Initialize(Pool, _bombSpawner);
+    public override void Spawn(Vector3 position)
+    {
+        Box box = Pool.Get(position);
+        box.Destroyed += Unspawn;
+    }
 
     private Vector3 GetRandomPointInArea()
     {
@@ -40,5 +43,12 @@ public class BoxSpawner : Spawner<Box>
 
             yield return _delay;
         }
+    }
+
+    protected override void Unspawn(Box instance)
+    {
+        Pool.Put(instance);
+        instance.Destroyed -= Unspawn;
+        _bombSpawner.Spawn(instance.transform.position);
     }
 }

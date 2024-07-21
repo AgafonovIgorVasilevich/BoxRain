@@ -1,10 +1,9 @@
 using UnityEngine;
+using System;
 
 public class Effect : MonoBehaviour
 {
-    private ItemPool<Effect> _pool;
+    public event Action<Effect> Destroyed;
 
-    private void OnDisable() => _pool.Put(this);
-
-    public void Initialize(ItemPool<Effect> pool) => _pool = pool;
+    private void OnDisable() => Destroyed?.Invoke(this);
 }

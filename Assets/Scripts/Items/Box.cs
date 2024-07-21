@@ -1,26 +1,21 @@
 using UnityEngine;
+using System;
 
-[RequireComponent (typeof(Renderer))]
+[RequireComponent(typeof(Renderer))]
 
 public class Box : MonoBehaviour
 {
-    private BombSpawner _bombSpawner;
-    private ItemPool<Box> _pool;
+    private Renderer _renderer;
 
-    public void Initialize(ItemPool<Box> pool, BombSpawner bombSpawner)
-    {
-        GetComponent<Renderer>().material.color = Color.white;
-        _bombSpawner = bombSpawner;
-        _pool = pool;
-    }
+    public event Action<Box> Destroyed;
+
+    private void Awake() => _renderer = GetComponent<Renderer>();
+
+    private void OnEnable() => _renderer.material.color = Color.white;
 
     private void OnCollisionEnter(Collision collision)
     {
-        if(collision.transform.GetComponent<Platform>())
-        {
-            GetComponent<Renderer>().material.color = Random.ColorHSV();
-            _pool.Put(this);
-            _bombSpawner.Spawn(transform.position);
-        }
+        if (collision.transform.GetComponent<Platform>())
+            Destroyed?.Invoke(this);
     }
 }
